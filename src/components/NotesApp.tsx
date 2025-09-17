@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNotesStore } from '@/hooks/useNotesStore';
+import { useSupabaseNotesStore } from '@/hooks/useSupabaseNotesStore';
 import { Sidebar } from './Sidebar';
 import { NoteEditor } from './NoteEditor';
 import { EmptyState } from './EmptyState';
@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 export const NotesApp = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const notesStore = useNotesStore();
+  const notesStore = useSupabaseNotesStore();
 
   const { selectedNote } = notesStore;
 

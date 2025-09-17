@@ -13,9 +13,9 @@ interface SidebarProps {
   setSelectedWorkspaceId: (id: string) => void;
   setSelectedFolderId: (id: string) => void;
   setSelectedNoteId: (id: string) => void;
-  createWorkspace: (name: string, description?: string) => Workspace;
-  createFolder: (workspaceId: string, name: string) => FolderType;
-  createNote: (folderId: string, title: string) => Note;
+  createWorkspace: (name: string, description?: string) => Promise<Workspace | null>;
+  createFolder: (workspaceId: string, name: string) => Promise<FolderType | null>;
+  createNote: (folderId: string, title: string) => Promise<Note | null>;
   searchQuery: string;
   onSearchChange: (query: string) => void;
 }
@@ -60,24 +60,26 @@ export const Sidebar = ({
     setExpandedFolders(newExpanded);
   };
 
-  const handleCreateWorkspace = (name: string) => {
+  const handleCreateWorkspace = async (name: string) => {
     if (name.trim()) {
-      createWorkspace(name.trim());
+      await createWorkspace(name.trim());
       setCreatingWorkspace(false);
     }
   };
 
-  const handleCreateFolder = (workspaceId: string, name: string) => {
+  const handleCreateFolder = async (workspaceId: string, name: string) => {
     if (name.trim()) {
-      createFolder(workspaceId, name.trim());
+      await createFolder(workspaceId, name.trim());
       setCreatingFolder(null);
     }
   };
 
-  const handleCreateNote = (folderId: string, title: string) => {
+  const handleCreateNote = async (folderId: string, title: string) => {
     if (title.trim()) {
-      const note = createNote(folderId, title.trim());
-      setSelectedNoteId(note.id);
+      const note = await createNote(folderId, title.trim());
+      if (note) {
+        setSelectedNoteId(note.id);
+      }
       setCreatingNote(null);
     }
   };

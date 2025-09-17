@@ -1,7 +1,12 @@
 import { NotesApp } from '@/components/NotesApp';
+import { AuthWrapper } from '@/components/AuthWrapper';
 
 const Index = () => {
-  return <NotesApp />;
+  return (
+    <AuthWrapper>
+      <NotesApp />
+    </AuthWrapper>
+  );
 };
 
 export default Index;

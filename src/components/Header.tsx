@@ -1,6 +1,7 @@
-import { Search, Menu } from 'lucide-react';
+import { Search, Menu, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useSupabaseNotesStore } from '@/hooks/useSupabaseNotesStore';
 
 interface HeaderProps {
   sidebarOpen: boolean;
@@ -10,6 +11,8 @@ interface HeaderProps {
 }
 
 export const Header = ({ sidebarOpen, onToggleSidebar, searchQuery, onSearchChange }: HeaderProps) => {
+  const { user, signOut } = useSupabaseNotesStore();
+
   return (
     <header className="h-16 border-b border-border bg-card px-6 flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -36,7 +39,23 @@ export const Header = ({ sidebarOpen, onToggleSidebar, searchQuery, onSearchChan
         </div>
       </div>
 
-      <div className="w-16" />
+      <div className="flex items-center gap-2">
+        {user && (
+          <>
+            <span className="text-sm text-muted-foreground hidden sm:inline">
+              {user.email}
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={signOut}
+              className="hover:bg-secondary"
+            >
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </>
+        )}
+      </div>
     </header>
   );
 };
